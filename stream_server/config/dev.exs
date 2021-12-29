@@ -2,8 +2,8 @@ import Config
 
 # Configure your database
 config :stream_server, StreamServer.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "streams",
+  password: "streams",
   database: "stream_server_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
