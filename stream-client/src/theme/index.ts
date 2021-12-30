@@ -40,6 +40,15 @@ const theme = extendTheme(
       body: `Inter, ${base.fonts?.body}`,
     },
     components: {
+      Link: {
+        variants: {
+          hoverable: {
+            _hover: {
+              color: "blue.500",
+            },
+          },
+        },
+      },
       Button: {
         variants: {
           primary: (props: any) => ({
