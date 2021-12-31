@@ -58,6 +58,12 @@ defmodule StreamServerWeb.Router do
 
   ## Authentication routes
 
+  scope "/api", StreamServerWeb do
+    pipe_through [:api]
+
+    get "/streams", StreamController, :index
+  end
+
   scope "/", StreamServerWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
