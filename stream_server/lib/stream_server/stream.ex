@@ -9,7 +9,8 @@ defmodule StreamServer.Stream do
     field :host_code, :string
     field :name, :string
     field :speaker_code, :string
-    field :status, :integer
+    field :status, :integer # live | scheduled | finished
+    field :cover_image_url, :string
 
     timestamps()
   end
