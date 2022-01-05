@@ -48,19 +48,27 @@ const StreamPane: FC<Stream> = (props) => {
             <Icon marginRight={1} as={CgUser} />
             <Text>2</Text>
           </Box>
-          <Box display="flex" alignItems="center">
-            <Icon marginRight={1} as={CgEyeAlt} />
-            <Text>150</Text>
-          </Box>
+          {props.status === 0 && (
+            <Box display="flex" alignItems="center">
+              <Icon marginRight={1} as={CgEyeAlt} />
+              <Text>150</Text>
+            </Box>
+          )}
           <Spacer />
-          <Badge
-            fontSize="12px"
-            borderRadius="99px"
-            padding="4px 8px"
-            colorScheme="orange"
-          >
-            Moderated
-          </Badge>
+          {props.status === 0 ? (
+            <Badge
+              fontSize="12px"
+              borderRadius="99px"
+              padding="4px 8px"
+              colorScheme="orange"
+            >
+              Moderated
+            </Badge>
+          ) : (
+            <Badge fontSize="12px" borderRadius="99px" padding="4px 8px">
+              04 June 2021, 11:00 AM MT
+            </Badge>
+          )}
         </HStack>
       </VStack>
     </HStack>
