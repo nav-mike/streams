@@ -1,39 +1,26 @@
 import { FC, useEffect } from "react";
 import {
   Avatar,
-  Badge,
-  Box,
   Container,
   Flex,
   Heading,
-  HStack,
   Icon,
   IconButton,
-  Image,
   Spacer,
-  Text,
   useColorMode,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import {
-  CgCalendarDue,
-  CgEyeAlt,
-  CgHomeAlt,
-  CgUser,
-  CgUserList,
-} from "react-icons/cg";
+import { CgCalendarDue, CgHomeAlt, CgUserList } from "react-icons/cg";
 import { BsCalendar3, BsChevronLeft } from "react-icons/bs";
-import streamImage from "../stream1.jpg";
-import { RiSlideshow2Line } from "react-icons/ri";
 import { IoChatbubblesOutline, IoPaperPlaneOutline } from "react-icons/io5";
 import MenuLink from "../components/MenuLink";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { getAllStreams } from "../api/streams";
 import { getAllStreams as allStreams } from "../store/actions/streams";
-import StreamPane from "../components/StreamPane";
 import Stream from "../models/Stream";
+import StreamsPane from "../components/StreamsPane";
 
 const Home: FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -105,22 +92,10 @@ const Home: FC = () => {
             icon={<Icon as={BsCalendar3} />}
           />
         </Flex>
-        <VStack flex="1" bg={mainBg} alignItems="stretch" p="32px">
-          <Heading as="h4" size="sm" paddingBottom="16px">
-            Live now
-          </Heading>
-          {streams &&
-            streams
-              .filter((item) => item.status === 0)
-              .map((item) => <StreamPane {...item} key={item.id} />)}
-          <Heading as="h4" size="sm" paddingY="16px">
-            Coming up
-          </Heading>
-          {streams &&
-            streams
-              .filter((item) => item.status === 1)
-              .map((item) => <StreamPane {...item} key={item.id} />)}
-        </VStack>
+        <StreamsPane
+          live={streams.filter((item) => item.status === 0)}
+          comingUp={streams.filter((item) => item.status === 1)}
+        />
       </VStack>
       <Flex
         direction="column"
