@@ -5,12 +5,8 @@ defmodule StreamServerWeb.StreamControllerTest do
 
   alias StreamServer.Streams.Stream
 
-  @create_attrs %{
-
-  }
-  @update_attrs %{
-
-  }
+  @create_attrs %{}
+  @update_attrs %{}
   @invalid_attrs %{}
 
   setup %{conn: conn} do

@@ -10,9 +10,7 @@ defmodule StreamServer.StreamsFixtures do
   def stream_fixture(attrs \\ %{}) do
     {:ok, stream} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{})
       |> StreamServer.Streams.create_stream()
 
     stream

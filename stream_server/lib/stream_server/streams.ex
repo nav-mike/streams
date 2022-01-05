@@ -32,7 +32,7 @@ defmodule StreamServer.Streams do
       %Stream{}
 
   """
-  def get_stream!(id), do: raise "TODO"
+  def get_stream!(id), do: raise("TODO")
 
   @doc """
   Creates a stream.
