@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import {
   Avatar,
   Badge,
@@ -29,11 +29,24 @@ import streamImage from "../stream1.jpg";
 import { RiSlideshow2Line } from "react-icons/ri";
 import { IoChatbubblesOutline, IoPaperPlaneOutline } from "react-icons/io5";
 import MenuLink from "../components/MenuLink";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { getAllStreams } from "../api/streams";
+import { getAllStreams as allStreams } from "../store/actions/streams";
 
 const Home: FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const bg = useColorModeValue("white", "gray.800");
   const mainBg = useColorModeValue("gray.200", "gray.900");
+  const streams = useAppSelector((state) => state.streams);
+  const dispatch = useAppDispatch();
+
+  console.log(streams);
+
+  useEffect(() => {
+    getAllStreams().then((streams) => {
+      dispatch(allStreams(streams));
+    });
+  }, [dispatch]);
 
   return (
     <Container maxW="full" h="full" px={0} display="flex" flexDirection="row">
