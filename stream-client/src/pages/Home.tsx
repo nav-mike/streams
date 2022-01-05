@@ -40,7 +40,7 @@ const Home: FC = () => {
   }, [dispatch]);
 
   return (
-    <Container maxW="full" h="full" px={0} display="flex" flexDirection="row">
+    <>
       <Flex
         direction="column"
         w="80px"
@@ -134,7 +134,7 @@ const Home: FC = () => {
           icon={<Icon as={IoChatbubblesOutline} />}
         />
       </Flex>
-    </Container>
+    </>
   );
 };
 
