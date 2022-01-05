@@ -21,6 +21,7 @@ import { getAllStreams } from "../api/streams";
 import { getAllStreams as allStreams } from "../store/actions/streams";
 import Stream from "../models/Stream";
 import StreamsPane from "../components/StreamsPane";
+import Chat from "../components/Chat";
 
 const Home: FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -97,43 +98,7 @@ const Home: FC = () => {
           comingUp={streams.filter((item) => item.status === 1)}
         />
       </VStack>
-      <Flex
-        direction="column"
-        w="56px"
-        maxW="56px"
-        minW="56px"
-        alignItems="center"
-      >
-        <IconButton
-          aria-label="Show chat"
-          color="blue.500"
-          w="40px"
-          h="40px"
-          m="8px"
-          icon={<Icon as={BsChevronLeft} />}
-        />
-        <IconButton
-          aria-label="Some button"
-          w="40px"
-          h="40px"
-          m="8px"
-          icon={<Icon as={CgHomeAlt} />}
-        />
-        <IconButton
-          aria-label="Paper plane"
-          w="40px"
-          h="40px"
-          m="8px"
-          icon={<Icon as={IoPaperPlaneOutline} />}
-        />
-        <IconButton
-          aria-label="Show chat"
-          w="40px"
-          h="40px"
-          m="8px"
-          icon={<Icon as={IoChatbubblesOutline} />}
-        />
-      </Flex>
+      <Chat />
     </>
   );
 };
