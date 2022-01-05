@@ -32,12 +32,16 @@ import MenuLink from "../components/MenuLink";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { getAllStreams } from "../api/streams";
 import { getAllStreams as allStreams } from "../store/actions/streams";
+import StreamPane from "../components/StreamPane";
+import Stream from "../models/Stream";
 
 const Home: FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const bg = useColorModeValue("white", "gray.800");
   const mainBg = useColorModeValue("gray.200", "gray.900");
-  const streams = useAppSelector((state) => state.streams);
+  const streams: Stream[] = useAppSelector<{ streams: Stream[] }>(
+    (state) => state.streams
+  ).streams;
   const dispatch = useAppDispatch();
 
   console.log(streams);
@@ -105,57 +109,8 @@ const Home: FC = () => {
           <Heading as="h4" size="sm" paddingBottom="16px">
             Live now
           </Heading>
-          <HStack bg={bg} borderRadius="16px">
-            <Image
-              src={streamImage}
-              alt="Stream 1"
-              w="250px"
-              h="156px"
-              borderTopLeftRadius="16px"
-              borderBottomLeftRadius="16px"
-              m={0}
-            />
-            <VStack
-              flex="1"
-              h="full"
-              alignItems="stretch"
-              paddingX="16px"
-              paddingTop="22px"
-            >
-              <HStack>
-                <Icon as={RiSlideshow2Line} w={6} h={6} />
-                <Heading as="h5" fontSize="16px">
-                  Implementing a Cybersecurity Framework
-                </Heading>
-              </HStack>
-              <Text fontSize="12px">
-                How to set a business plans to use information to a competitive
-                advantage and support enterprise goals. A smart city is an urban
-                area that uses different types of electronic methods and sensors
-                to collect data. Insights gained from that data are used to
-                manage assets, resources and services efficiently.
-              </Text>
-              <HStack>
-                <Box display="flex" alignItems="center">
-                  <Icon marginRight={1} as={CgUser} />
-                  <Text>2</Text>
-                </Box>
-                <Box display="flex" alignItems="center">
-                  <Icon marginRight={1} as={CgEyeAlt} />
-                  <Text>150</Text>
-                </Box>
-                <Spacer />
-                <Badge
-                  fontSize="12px"
-                  borderRadius="99px"
-                  padding="4px 8px"
-                  colorScheme="orange"
-                >
-                  Moderated
-                </Badge>
-              </HStack>
-            </VStack>
-          </HStack>
+          {streams &&
+            streams.map((item) => <StreamPane {...item} key={item.id} />)}
         </VStack>
       </VStack>
       <Flex
