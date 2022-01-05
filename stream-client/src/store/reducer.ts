@@ -1,6 +1,9 @@
 import { combineReducers, createStore } from "@reduxjs/toolkit";
+import streamsReducer from "./reducers/streams";
 
-export const rootReducer = combineReducers({});
+export const rootReducer = combineReducers({
+  streams: streamsReducer,
+});
 
 export const store = createStore(rootReducer);
 
