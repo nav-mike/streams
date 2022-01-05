@@ -6,7 +6,7 @@ defmodule StreamServer.Repo.Migrations.CreateStreams do
       add :id, :uuid, primary_key: true, null: false
       add :name, :string
       add :status, :integer
-      add :description, :string
+      add :description, :text
       add :host_code, :string
       add :speaker_code, :string
 
