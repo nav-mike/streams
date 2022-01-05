@@ -110,7 +110,16 @@ const Home: FC = () => {
             Live now
           </Heading>
           {streams &&
-            streams.map((item) => <StreamPane {...item} key={item.id} />)}
+            streams
+              .filter((item) => item.status === 0)
+              .map((item) => <StreamPane {...item} key={item.id} />)}
+          <Heading as="h4" size="sm" paddingY="16px">
+            Coming up
+          </Heading>
+          {streams &&
+            streams
+              .filter((item) => item.status === 1)
+              .map((item) => <StreamPane {...item} key={item.id} />)}
         </VStack>
       </VStack>
       <Flex
