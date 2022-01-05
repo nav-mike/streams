@@ -18,7 +18,7 @@ defmodule StreamServer.Streams do
 
   """
   def list_streams do
-    Repo.all(Stream)
+    Repo.all(from s in Stream, where: s.status != 2)
   end
 
   @doc """
