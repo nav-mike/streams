@@ -133,16 +133,14 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
                     <IconButton
                       aria-label="Emojis"
                       bg={bg}
-                      icon={
-                        <Icon as={TiFlash} onClick={onAddFileClickHandle} />
-                      }
+                      onClick={onAddFileClickHandle}
+                      icon={<Icon as={TiFlash} />}
                     />
                     <IconButton
                       aria-label="Attach"
                       bg={bg}
-                      icon={
-                        <Icon as={CgSmile} onClick={setIsShowPicker.toggle} />
-                      }
+                      onClick={setIsShowPicker.toggle}
+                      icon={<Icon as={CgSmile} />}
                     />
                   </InputRightElement>
                 </InputGroup>
@@ -155,14 +153,14 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
                 />
               </FormControl>
               <FormControl>
-                <Picker
-                  style={
-                    isShowPicker ? defaultPickerStyles : { display: "none" }
-                  }
-                  theme={emojiPickerTheme}
-                  ref={emojiPicker}
-                  onSelect={onSelectEmojiHandle}
-                />
+                {isShowPicker && (
+                  <Picker
+                    style={defaultPickerStyles}
+                    theme={emojiPickerTheme}
+                    ref={emojiPicker}
+                    onSelect={onSelectEmojiHandle}
+                  />
+                )}
               </FormControl>
             </VStack>
           </TabPanel>
