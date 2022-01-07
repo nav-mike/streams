@@ -1,4 +1,11 @@
-import { ChangeEvent, KeyboardEvent, FC, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  FC,
+  useRef,
+  useState,
+  CSSProperties,
+} from "react";
 import {
   Tab,
   Flex,
@@ -26,17 +33,21 @@ import { CgSmile } from "react-icons/cg";
 import { TiFlash } from "react-icons/ti";
 import { EmojiData, Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
+import ChatMessage from "./ChatMessage";
+import { GoArrowRight } from "react-icons/all";
 
 interface IOpenChatProps {
   toggle: () => void;
 }
 
-const defaultPickerStyles: React.CSSProperties = {
+const defaultPickerStyles: CSSProperties = {
   position: "absolute",
   bottom: "20px",
   right: "20px",
   zIndex: 1000,
 };
+
+const MAX_MESSAGE_SIZE = 280;
 
 const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   const bg = useColorModeValue("gray.100", "WhiteAlpha.50");
@@ -44,6 +55,7 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
 
   const [isShowPicker, setIsShowPicker] = useBoolean(false);
   const [message, setMessage] = useState("");
+  const [messageSize, setMessageSize] = useState(0);
 
   const inputFile = useRef<HTMLInputElement>(null);
   const emojiPicker = useRef<Picker>(null);
@@ -53,29 +65,42 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
     inputFile?.current?.click();
   };
 
+  const updateMessageHandler = (value: string) => {
+    if (value.length > MAX_MESSAGE_SIZE) return;
+
+    setMessage(value);
+    setMessageSize(value.length);
+  };
+
+  const onSendMessage = () => {
+    if (message.trim() !== "") {
+      console.log(message);
+      updateMessageHandler("");
+    }
+  };
+
   const onMessageChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setMessage(e.target.value);
+    updateMessageHandler(e.target.value);
   };
 
   const onMessageKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
 
-      if (message.trim() !== "") {
-        console.log(message);
-        setMessage("");
-      }
+      onSendMessage();
     }
   };
-
-  console.log(isShowPicker);
 
   const onSelectEmojiHandle = (emoji: EmojiData) => {
     console.log(emoji);
 
     setMessage((prev) => {
-      const emojiValue = "native" in emoji ? emoji.native : emoji.colons;
-      return `${prev} ${emojiValue} `;
+      const emojiValue = "native" in emoji ? emoji.native : emoji.colons || "";
+
+      if (prev.length + emojiValue.length > MAX_MESSAGE_SIZE) return prev;
+
+      setMessageSize((prev) => prev + emojiValue.length);
+      return `${prev}${emojiValue}`;
     });
 
     setIsShowPicker.off();
@@ -117,42 +142,56 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
         <TabPanels h={"full"}>
           <TabPanel h={"full"}>
             <VStack h={"full"}>
-              <VStack flex={"1"}></VStack>
-              <FormControl paddingBottom={10}>
-                <InputGroup>
-                  <Input
-                    type={"text"}
-                    placeholder={"Say something"}
-                    borderRadius={"8px"}
-                    value={message}
-                    onChange={onMessageChangeHandler}
-                    onKeyDown={onMessageKeyDownHandler}
-                    ref={messageInputRef}
+              <VStack flex={"1"} flexDirection={"column-reverse"}>
+                <ChatMessage />
+              </VStack>
+              <HStack paddingBottom={10}>
+                <FormControl flex={1} w={"full"}>
+                  <InputGroup>
+                    <Input
+                      type={"text"}
+                      placeholder={"Say something"}
+                      borderRadius={"8px"}
+                      value={message}
+                      onChange={onMessageChangeHandler}
+                      onKeyDown={onMessageKeyDownHandler}
+                      ref={messageInputRef}
+                      w={"256px"}
+                      fontSize={"sm"}
+                      pr={"4rem"}
+                    />
+                    <InputRightElement w={"4rem"}>
+                      <IconButton
+                        aria-label="Emojis"
+                        bg={bg}
+                        onClick={onAddFileClickHandle}
+                        icon={<Icon as={TiFlash} />}
+                        size={"sm"}
+                      />
+                      <IconButton
+                        aria-label="Attach"
+                        bg={bg}
+                        onClick={setIsShowPicker.toggle}
+                        icon={<Icon as={CgSmile} />}
+                        size={"sm"}
+                      />
+                    </InputRightElement>
+                  </InputGroup>
+                  <input
+                    type={"file"}
+                    id={"file"}
+                    ref={inputFile}
+                    accept={".jpg, .jpeg, .png, .gif"}
+                    style={{ display: "none" }}
                   />
-                  <InputRightElement w={"5rem"}>
-                    <IconButton
-                      aria-label="Emojis"
-                      bg={bg}
-                      onClick={onAddFileClickHandle}
-                      icon={<Icon as={TiFlash} />}
-                    />
-                    <IconButton
-                      aria-label="Attach"
-                      bg={bg}
-                      onClick={setIsShowPicker.toggle}
-                      icon={<Icon as={CgSmile} />}
-                    />
-                  </InputRightElement>
-                </InputGroup>
-                <input
-                  type={"file"}
-                  id={"file"}
-                  ref={inputFile}
-                  accept={".jpg, .jpeg, .png, .gif"}
-                  style={{ display: "none" }}
-                />
-              </FormControl>
-              <FormControl>
+                </FormControl>
+                <FormControl w={"40px"}>
+                  <IconButton
+                    aria-label={"Send"}
+                    onClick={onSendMessage}
+                    icon={<Icon as={GoArrowRight} />}
+                  />
+                </FormControl>
                 {isShowPicker && (
                   <Picker
                     style={defaultPickerStyles}
@@ -161,7 +200,7 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
                     onSelect={onSelectEmojiHandle}
                   />
                 )}
-              </FormControl>
+              </HStack>
             </VStack>
           </TabPanel>
         </TabPanels>
