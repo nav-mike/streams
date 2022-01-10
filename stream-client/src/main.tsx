@@ -7,13 +7,16 @@ import theme from "./theme";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/reducer";
+import { SocketProvider } from "./contexts/SocketContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ChakraProvider theme={theme}>
         <BrowserRouter>
-          <App />
+          <SocketProvider>
+            <App />
+          </SocketProvider>
         </BrowserRouter>
       </ChakraProvider>
     </Provider>

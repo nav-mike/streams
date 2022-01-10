@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
   CSSProperties,
+  useEffect,
 } from "react";
 import {
   Tab,
@@ -37,8 +38,7 @@ import ChatMessage from "./ChatMessage";
 import { GoArrowRight } from "react-icons/all";
 import { DateTime } from "luxon";
 import PinnedChatMessage from "./PinnedChatMessage";
-// @ts-ignore
-import socket from "../user_socket";
+import useChannel from "../models/useChannel";
 
 interface IOpenChatProps {
   toggle: () => void;
@@ -65,7 +65,25 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   const emojiPicker = useRef<Picker>(null);
   const messageInputRef = useRef<HTMLInputElement>(null);
 
-  console.log(socket);
+  const chatChannel = useChannel("room:lobby");
+
+  useEffect(() => {
+    if (!chatChannel) return;
+
+    chatChannel.push("ping", {});
+  });
+
+  useEffect(() => {
+    if (!chatChannel) return;
+
+    chatChannel.on("pnx_reply", (payload: any) => {
+      console.log("New message", payload);
+    });
+
+    return () => {
+      chatChannel.off();
+    };
+  }, [chatChannel]);
 
   const onAddFileClickHandle = () => {
     inputFile?.current?.click();
@@ -79,8 +97,10 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   };
 
   const onSendMessage = () => {
-    if (message.trim() !== "") {
-      console.log(message);
+    if (message.trim() !== "" && chatChannel) {
+      chatChannel.push("new_msg", {
+        message: message,
+      });
       updateMessageHandler("");
     }
   };

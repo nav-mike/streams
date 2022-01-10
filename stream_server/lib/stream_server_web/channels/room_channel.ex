@@ -17,6 +17,11 @@ defmodule StreamServerWeb.RoomChannel do
     {:reply, {:ok, payload}, socket}
   end
 
+  def handle_in("new_msg", %{"body" => body}, socket) do
+    broadcast(socket, "new_msg", %{"body" => body})
+    {:reply, {:ok, %{"body" => body}}, socket}
+  end
+
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (room:lobby).
   @impl true

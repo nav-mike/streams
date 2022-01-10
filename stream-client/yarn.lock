@@ -1612,6 +1612,11 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+phoenix-types@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/phoenix-types/-/phoenix-types-0.1.0.tgz#f2c43a73bc8955bb1445bf4f3bcf2d09b08e8ec8"
+  integrity sha1-8sQ6c7yJVbsURb9PO88tCbCOjsg=
+
 phoenix@^1.6.6:
   version "1.6.6"
   resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.6.6.tgz#16b578e36361d238707a66bf235e3f59ff3fb298"
