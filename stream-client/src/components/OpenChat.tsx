@@ -37,6 +37,8 @@ import ChatMessage from "./ChatMessage";
 import { GoArrowRight } from "react-icons/all";
 import { DateTime } from "luxon";
 import PinnedChatMessage from "./PinnedChatMessage";
+// @ts-ignore
+import socket from "../user_socket";
 
 interface IOpenChatProps {
   toggle: () => void;
@@ -62,6 +64,8 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   const inputFile = useRef<HTMLInputElement>(null);
   const emojiPicker = useRef<Picker>(null);
   const messageInputRef = useRef<HTMLInputElement>(null);
+
+  console.log(socket);
 
   const onAddFileClickHandle = () => {
     inputFile?.current?.click();

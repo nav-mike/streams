@@ -47,4 +47,8 @@ defmodule StreamServerWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug StreamServerWeb.Router
+
+  socket "/socket", StreamServerWeb.UserSocket,
+      websocket: true,
+      longpoll: false
 end
