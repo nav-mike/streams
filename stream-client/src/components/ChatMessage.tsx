@@ -7,18 +7,20 @@ import {
   Text,
   useColorModeValue,
   VStack,
+  Link,
 } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import { HiFlag } from "react-icons/hi";
+import { RiPushpinFill } from "react-icons/ri";
 
-interface IChatMessageProps {
+export interface IChatMessageProps {
   author: string;
   authorStatus?: string;
   authorAvatar: string;
   message: string;
   createdAt: DateTime;
-  pinned: boolean;
-  booked: boolean;
+  pinned?: boolean;
+  booked?: boolean;
 }
 
 const units: Intl.RelativeTimeFormatUnit[] = [
@@ -62,10 +64,21 @@ const ChatMessage: FC<IChatMessageProps> = (props) => {
           </Text>
           {props.authorStatus && <Badge>{props.authorStatus}</Badge>}
           {props.booked && <Icon as={HiFlag} color={"red"} />}
+          {props.pinned && <Icon as={RiPushpinFill} color={"gray.400"} />}
         </HStack>
         <Text fontSize={"12px"} align={"left"} paddingBottom={1}>
           {props.message}
         </Text>
+        {props.pinned && (
+          <Link
+            href={"#"}
+            color={"blue.400"}
+            fontSize={"xs"}
+            alignSelf={"flex-end"}
+          >
+            Read more
+          </Link>
+        )}
       </VStack>
     </HStack>
   );

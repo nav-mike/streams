@@ -36,6 +36,7 @@ import "emoji-mart/css/emoji-mart.css";
 import ChatMessage from "./ChatMessage";
 import { GoArrowRight } from "react-icons/all";
 import { DateTime } from "luxon";
+import PinnedChatMessage from "./PinnedChatMessage";
 
 interface IOpenChatProps {
   toggle: () => void;
@@ -142,176 +143,160 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
 
         <TabPanels>
           <TabPanel p={0}>
-            <VStack h={"calc(100vh - 56px - 42px)"}>
-              <VStack
-                flex={"1"}
-                flexDirection={"column-reverse"}
-                w={"full"}
-                p={1}
-                overflowY={"scroll"}
-              >
-                <ChatMessage
+            <VStack>
+              <VStack flex={"1"} flexDirection={"column"} w={"full"} p={1}>
+                <PinnedChatMessage
                   author={"Kent Dodds"}
                   authorAvatar={"https://bit.ly/kent-c-dodds"}
                   message={
                     "programming the firewall won't do anything, we need to index the primary PCI panel!"
                   }
                   createdAt={DateTime.now().plus({ minutes: -1 })}
-                  pinned={false}
-                  booked={false}
                 />
-                <ChatMessage
-                  author={"Jaxson Bator"}
-                  authorAvatar={"https://bit.ly/code-beast"}
-                  message={
-                    "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -2 })}
-                  pinned={false}
-                  booked={true}
-                />
-                <ChatMessage
-                  author={"Kent Dodds"}
-                  authorAvatar={"https://bit.ly/kent-c-dodds"}
-                  message={
-                    "programming the firewall won't do anything, we need to index the primary PCI panel!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -1 })}
-                  pinned={false}
-                  booked={false}
-                />
-                <ChatMessage
-                  author={"Jaxson Bator"}
-                  authorAvatar={"https://bit.ly/code-beast"}
-                  message={
-                    "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -2 })}
-                  pinned={false}
-                  booked={true}
-                />
-                <ChatMessage
-                  author={"Kent Dodds"}
-                  authorAvatar={"https://bit.ly/kent-c-dodds"}
-                  message={
-                    "programming the firewall won't do anything, we need to index the primary PCI panel!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -1 })}
-                  pinned={false}
-                  booked={false}
-                />
-                <ChatMessage
-                  author={"Jaxson Bator"}
-                  authorAvatar={"https://bit.ly/code-beast"}
-                  message={
-                    "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -2 })}
-                  pinned={false}
-                  booked={true}
-                />
-                <ChatMessage
-                  author={"Kent Dodds"}
-                  authorAvatar={"https://bit.ly/kent-c-dodds"}
-                  message={
-                    "programming the firewall won't do anything, we need to index the primary PCI panel!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -1 })}
-                  pinned={false}
-                  booked={false}
-                />
-                <ChatMessage
-                  author={"Jaxson Bator"}
-                  authorAvatar={"https://bit.ly/code-beast"}
-                  message={
-                    "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -2 })}
-                  pinned={false}
-                  booked={true}
-                />
-                <ChatMessage
-                  author={"Kent Dodds"}
-                  authorAvatar={"https://bit.ly/kent-c-dodds"}
-                  message={
-                    "programming the firewall won't do anything, we need to index the primary PCI panel!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -1 })}
-                  pinned={false}
-                  booked={false}
-                />
-                <ChatMessage
-                  author={"Jaxson Bator"}
-                  authorAvatar={"https://bit.ly/code-beast"}
-                  message={
-                    "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -2 })}
-                  pinned={false}
-                  booked={true}
-                />
-                <ChatMessage
-                  author={"Kent Dodds"}
-                  authorAvatar={"https://bit.ly/kent-c-dodds"}
-                  message={
-                    "programming the firewall won't do anything, we need to index the primary PCI panel!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -1 })}
-                  pinned={false}
-                  booked={false}
-                />
-                <ChatMessage
-                  author={"Jaxson Bator"}
-                  authorAvatar={"https://bit.ly/code-beast"}
-                  message={
-                    "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -2 })}
-                  pinned={false}
-                  booked={true}
-                />
-                <ChatMessage
-                  author={"Kent Dodds"}
-                  authorAvatar={"https://bit.ly/kent-c-dodds"}
-                  message={
-                    "programming the firewall won't do anything, we need to index the primary PCI panel!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -1 })}
-                  pinned={false}
-                  booked={false}
-                />
-                <ChatMessage
-                  author={"Jaxson Bator"}
-                  authorAvatar={"https://bit.ly/code-beast"}
-                  message={
-                    "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -2 })}
-                  pinned={false}
-                  booked={true}
-                />
-                <ChatMessage
-                  author={"Kent Dodds"}
-                  authorAvatar={"https://bit.ly/kent-c-dodds"}
-                  message={
-                    "programming the firewall won't do anything, we need to index the primary PCI panel!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -1 })}
-                  authorStatus={"moderator"}
-                  pinned={false}
-                  booked={false}
-                />
-                <ChatMessage
-                  author={"Jaxson Bator"}
-                  authorAvatar={"https://bit.ly/code-beast"}
-                  message={
-                    "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -2 })}
-                  pinned={false}
-                  authorStatus={"admin"}
-                  booked={true}
-                />
+                <VStack h={"calc(100vh - 56px - 42px - 84px - 120px)"}>
+                  <VStack flexDirection={"column-reverse"} overflowY={"scroll"}>
+                    <ChatMessage
+                      author={"Jaxson Bator"}
+                      authorAvatar={"https://bit.ly/code-beast"}
+                      message={
+                        "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -2 })}
+                    />
+                    <ChatMessage
+                      author={"Kent Dodds"}
+                      authorAvatar={"https://bit.ly/kent-c-dodds"}
+                      message={
+                        "programming the firewall won't do anything, we need to index the primary PCI panel!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -1 })}
+                    />
+                    <ChatMessage
+                      author={"Jaxson Bator"}
+                      authorAvatar={"https://bit.ly/code-beast"}
+                      message={
+                        "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -2 })}
+                    />
+                    <ChatMessage
+                      author={"Kent Dodds"}
+                      authorAvatar={"https://bit.ly/kent-c-dodds"}
+                      message={
+                        "programming the firewall won't do anything, we need to index the primary PCI panel!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -1 })}
+                    />
+                    <ChatMessage
+                      author={"Jaxson Bator"}
+                      authorAvatar={"https://bit.ly/code-beast"}
+                      message={
+                        "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -2 })}
+                    />
+                    <ChatMessage
+                      author={"Kent Dodds"}
+                      authorAvatar={"https://bit.ly/kent-c-dodds"}
+                      message={
+                        "programming the firewall won't do anything, we need to index the primary PCI panel!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -1 })}
+                    />
+                    <ChatMessage
+                      author={"Jaxson Bator"}
+                      authorAvatar={"https://bit.ly/code-beast"}
+                      message={
+                        "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -2 })}
+                      pinned={false}
+                      booked={true}
+                    />
+                    <ChatMessage
+                      author={"Kent Dodds"}
+                      authorAvatar={"https://bit.ly/kent-c-dodds"}
+                      message={
+                        "programming the firewall won't do anything, we need to index the primary PCI panel!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -1 })}
+                      pinned={false}
+                      booked={false}
+                    />
+                    <ChatMessage
+                      author={"Jaxson Bator"}
+                      authorAvatar={"https://bit.ly/code-beast"}
+                      message={
+                        "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -2 })}
+                      pinned={false}
+                      booked={true}
+                    />
+                    <ChatMessage
+                      author={"Kent Dodds"}
+                      authorAvatar={"https://bit.ly/kent-c-dodds"}
+                      message={
+                        "programming the firewall won't do anything, we need to index the primary PCI panel!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -1 })}
+                      pinned={false}
+                      booked={false}
+                    />
+                    <ChatMessage
+                      author={"Jaxson Bator"}
+                      authorAvatar={"https://bit.ly/code-beast"}
+                      message={
+                        "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -2 })}
+                      pinned={false}
+                      booked={true}
+                    />
+                    <ChatMessage
+                      author={"Kent Dodds"}
+                      authorAvatar={"https://bit.ly/kent-c-dodds"}
+                      message={
+                        "programming the firewall won't do anything, we need to index the primary PCI panel!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -1 })}
+                      pinned={false}
+                      booked={false}
+                    />
+                    <ChatMessage
+                      author={"Jaxson Bator"}
+                      authorAvatar={"https://bit.ly/code-beast"}
+                      message={
+                        "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -2 })}
+                      pinned={false}
+                      booked={true}
+                    />
+                    <ChatMessage
+                      author={"Kent Dodds"}
+                      authorAvatar={"https://bit.ly/kent-c-dodds"}
+                      message={
+                        "programming the firewall won't do anything, we need to index the primary PCI panel!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -1 })}
+                      authorStatus={"moderator"}
+                      pinned={false}
+                      booked={false}
+                    />
+                    <ChatMessage
+                      author={"Jaxson Bator"}
+                      authorAvatar={"https://bit.ly/code-beast"}
+                      message={
+                        "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!"
+                      }
+                      createdAt={DateTime.now().plus({ minutes: -2 })}
+                      pinned={false}
+                      authorStatus={"admin"}
+                      booked={true}
+                    />
+                  </VStack>
+                </VStack>
               </VStack>
               <HStack paddingBottom={3}>
                 <FormControl flex={1} w={"full"}>
