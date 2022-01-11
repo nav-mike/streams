@@ -39,32 +39,13 @@ import { GoArrowRight } from "react-icons/all";
 import { DateTime } from "luxon";
 import PinnedChatMessage from "./PinnedChatMessage";
 import useChannel from "../models/useChannel";
+import MessageInputForm from "./Chat/MessageInputForm";
 
 interface IOpenChatProps {
   toggle: () => void;
 }
 
-const defaultPickerStyles: CSSProperties = {
-  position: "absolute",
-  bottom: "20px",
-  right: "20px",
-  zIndex: 1000,
-};
-
-const MAX_MESSAGE_SIZE = 280;
-
 const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
-  const bg = useColorModeValue("gray.100", "WhiteAlpha.50");
-  const emojiPickerTheme = useColorModeValue("light", "dark");
-
-  const [isShowPicker, setIsShowPicker] = useBoolean(false);
-  const [message, setMessage] = useState("");
-  const [messageSize, setMessageSize] = useState(0);
-
-  const inputFile = useRef<HTMLInputElement>(null);
-  const emojiPicker = useRef<Picker>(null);
-  const messageInputRef = useRef<HTMLInputElement>(null);
-
   const chatChannel = useChannel("room:lobby");
 
   useEffect(() => {
@@ -76,7 +57,7 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   useEffect(() => {
     if (!chatChannel) return;
 
-    chatChannel.on("pnx_reply", (payload: any) => {
+    chatChannel.on("new_msg", (payload: any) => {
       console.log("New message", payload);
     });
 
@@ -85,52 +66,13 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
     };
   }, [chatChannel]);
 
-  const onAddFileClickHandle = () => {
-    inputFile?.current?.click();
-  };
-
-  const updateMessageHandler = (value: string) => {
-    if (messageSize > MAX_MESSAGE_SIZE) return;
-
-    setMessage(value);
-    setMessageSize(value.length);
-  };
-
-  const onSendMessage = () => {
+  const onSendMessage = (message: string) => {
+    console.log(chatChannel);
     if (message.trim() !== "" && chatChannel) {
       chatChannel.push("new_msg", {
-        message: message,
+        body: { message: message },
       });
-      updateMessageHandler("");
     }
-  };
-
-  const onMessageChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    updateMessageHandler(e.target.value);
-  };
-
-  const onMessageKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-
-      onSendMessage();
-    }
-  };
-
-  const onSelectEmojiHandle = (emoji: EmojiData) => {
-    console.log(emoji);
-
-    setMessage((prev) => {
-      if (messageSize > MAX_MESSAGE_SIZE) return prev;
-
-      const emojiValue = "native" in emoji ? emoji.native : emoji.colons || "";
-
-      setMessageSize((prev) => prev + emojiValue.length);
-      return `${prev}${emojiValue}`;
-    });
-
-    setIsShowPicker.off();
-    messageInputRef?.current?.focus();
   };
 
   return (
@@ -322,62 +264,7 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
                   </VStack>
                 </VStack>
               </VStack>
-              <HStack paddingBottom={3}>
-                <FormControl flex={1} w={"full"}>
-                  <InputGroup>
-                    <Input
-                      type={"text"}
-                      placeholder={"Say something"}
-                      borderRadius={"8px"}
-                      value={message}
-                      onChange={onMessageChangeHandler}
-                      onKeyDown={onMessageKeyDownHandler}
-                      ref={messageInputRef}
-                      w={"256px"}
-                      fontSize={"sm"}
-                      pr={"4rem"}
-                    />
-                    <InputRightElement w={"4rem"}>
-                      <IconButton
-                        aria-label="Emojis"
-                        bg={bg}
-                        onClick={onAddFileClickHandle}
-                        icon={<Icon as={TiFlash} />}
-                        size={"sm"}
-                      />
-                      <IconButton
-                        aria-label="Attach"
-                        bg={bg}
-                        onClick={setIsShowPicker.toggle}
-                        icon={<Icon as={CgSmile} />}
-                        size={"sm"}
-                      />
-                    </InputRightElement>
-                  </InputGroup>
-                  <input
-                    type={"file"}
-                    id={"file"}
-                    ref={inputFile}
-                    accept={".jpg, .jpeg, .png, .gif"}
-                    style={{ display: "none" }}
-                  />
-                </FormControl>
-                <FormControl w={"40px"}>
-                  <IconButton
-                    aria-label={"Send"}
-                    onClick={onSendMessage}
-                    icon={<Icon as={GoArrowRight} />}
-                  />
-                </FormControl>
-                {isShowPicker && (
-                  <Picker
-                    style={defaultPickerStyles}
-                    theme={emojiPickerTheme}
-                    ref={emojiPicker}
-                    onSelect={onSelectEmojiHandle}
-                  />
-                )}
-              </HStack>
+              <MessageInputForm onSubmit={onSendMessage} />
             </VStack>
           </TabPanel>
         </TabPanels>
