@@ -38,7 +38,7 @@ import ChatMessage from "./ChatMessage";
 import { GoArrowRight } from "react-icons/all";
 import { DateTime } from "luxon";
 import PinnedChatMessage from "./PinnedChatMessage";
-import useChannel from "../models/useChannel";
+import useChannel from "../hooks/useChannel";
 import MessageInputForm from "./Chat/MessageInputForm";
 
 interface IOpenChatProps {
