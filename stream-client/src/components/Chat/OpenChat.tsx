@@ -17,17 +17,18 @@ import {
 import { BsChevronRight } from "react-icons/bs";
 import { RiUserFill } from "react-icons/ri";
 import "emoji-mart/css/emoji-mart.css";
-import ChatMessage, { IChatMessageProps } from "./ChatMessage";
+import ChatMessage from "./ChatMessage";
 import { DateTime } from "luxon";
 import PinnedChatMessage from "./PinnedChatMessage";
 import useChannel from "../../hooks/useChannel";
 import MessageInputForm from "./MessageInputForm";
+import ChatMessageModel from "../../models/ChatMessage";
 
 interface IOpenChatProps {
   toggle: () => void;
 }
 
-export const FAKE_MESSAGES: IChatMessageProps[] = [
+export const FAKE_MESSAGES: ChatMessageModel[] = [
   {
     author: "Jaxson Bator",
     authorAvatar: "https://bit.ly/code-beast",

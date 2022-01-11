@@ -12,16 +12,7 @@ import {
 import { DateTime } from "luxon";
 import { HiFlag } from "react-icons/hi";
 import { RiPushpinFill } from "react-icons/ri";
-
-export interface IChatMessageProps {
-  author: string;
-  authorStatus?: string;
-  authorAvatar: string;
-  message: string;
-  createdAt: DateTime;
-  pinned?: boolean;
-  booked?: boolean;
-}
+import ChatMessageModel from "../../models/ChatMessage";
 
 const units: Intl.RelativeTimeFormatUnit[] = [
   "year",
@@ -43,7 +34,7 @@ const timeAgo = (dateTime: DateTime) => {
   return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
 };
 
-const ChatMessage: FC<IChatMessageProps> = (props) => {
+const ChatMessage: FC<ChatMessageModel> = (props) => {
   const bg = useColorModeValue("gray.100", "gray.700");
   const timeColor = useColorModeValue("gray.500", "gray.600");
 
