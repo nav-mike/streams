@@ -21,7 +21,7 @@ import { getAllStreams } from "../api/streams";
 import { getAllStreams as allStreams } from "../store/actions/streams";
 import Stream from "../models/Stream";
 import StreamsPane from "../components/StreamsPane";
-import Chat from "../components/Chat";
+import Chat from "../components/Chat/Chat";
 
 const Home: FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();

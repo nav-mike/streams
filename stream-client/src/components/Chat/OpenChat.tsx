@@ -20,8 +20,8 @@ import "emoji-mart/css/emoji-mart.css";
 import ChatMessage, { IChatMessageProps } from "./ChatMessage";
 import { DateTime } from "luxon";
 import PinnedChatMessage from "./PinnedChatMessage";
-import useChannel from "../hooks/useChannel";
-import MessageInputForm from "./Chat/MessageInputForm";
+import useChannel from "../../hooks/useChannel";
+import MessageInputForm from "./MessageInputForm";
 
 interface IOpenChatProps {
   toggle: () => void;
