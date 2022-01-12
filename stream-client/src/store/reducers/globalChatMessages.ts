@@ -126,7 +126,7 @@ const globalChatMessagesReducer = (
     case NEW_MESSAGE:
       return {
         ...state,
-        messages: [...state.messages, action.payload],
+        messages: [action.payload, ...state.messages].slice(0, 1000),
       };
     default:
       return state;

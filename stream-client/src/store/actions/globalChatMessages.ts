@@ -5,7 +5,7 @@ export const NEW_MESSAGE = "NEW_MESSAGE";
 
 export type NewMessageAction = Action<typeof NEW_MESSAGE, ChatMessage>;
 
-export const newMessage = (message: ChatMessage): NewMessageAction => ({
+export const NewGlobalMessage = (message: ChatMessage): NewMessageAction => ({
   type: NEW_MESSAGE,
   payload: message,
 });

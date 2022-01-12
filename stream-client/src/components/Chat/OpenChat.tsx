@@ -22,6 +22,8 @@ import PinnedChatMessage from "./PinnedChatMessage";
 import useChannel from "../../hooks/useChannel";
 import MessageInputForm from "./MessageInputForm";
 import MessagesList from "./MessagesList";
+import { useAppDispatch } from "../../store/hooks";
+import { NewGlobalMessage } from "../../store/actions/globalChatMessages";
 
 interface IOpenChatProps {
   toggle: () => void;
@@ -29,6 +31,7 @@ interface IOpenChatProps {
 
 const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   const chatChannel = useChannel("room:lobby");
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!chatChannel) return;
@@ -39,9 +42,31 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   useEffect(() => {
     if (!chatChannel) return;
 
-    chatChannel.on("new_msg", (payload: any) => {
-      console.log("New message", payload);
-    });
+    chatChannel.on(
+      "new_msg",
+      (payload: {
+        body: {
+          author: string;
+          message: string;
+          createdAt: string;
+          authorAvatar: string;
+          authorStatus?: string;
+          pinned?: boolean;
+          booked?: boolean;
+        };
+      }) => {
+        console.log("New message", {
+          ...payload.body,
+          createdAt: DateTime.fromISO(payload.body.createdAt),
+        });
+        dispatch(
+          NewGlobalMessage({
+            ...payload.body,
+            createdAt: DateTime.fromISO(payload.body.createdAt),
+          })
+        );
+      }
+    );
 
     return () => {
       chatChannel.off();
@@ -49,7 +74,6 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   }, [chatChannel]);
 
   const onSendMessage = (message: string) => {
-    console.log(chatChannel);
     if (message.trim() !== "" && chatChannel) {
       chatChannel.push("new_msg", {
         body: { message: message },

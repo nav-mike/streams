@@ -1,7 +1,6 @@
 import { FC, useEffect } from "react";
 import {
   Avatar,
-  Container,
   Flex,
   Heading,
   Icon,
@@ -13,8 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { CgCalendarDue, CgHomeAlt, CgUserList } from "react-icons/cg";
-import { BsCalendar3, BsChevronLeft } from "react-icons/bs";
-import { IoChatbubblesOutline, IoPaperPlaneOutline } from "react-icons/io5";
+import { BsCalendar3 } from "react-icons/bs";
 import MenuLink from "../components/MenuLink";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { getAllStreams } from "../api/streams";
