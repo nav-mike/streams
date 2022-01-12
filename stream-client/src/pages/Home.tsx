@@ -32,8 +32,6 @@ const Home: FC = () => {
   ).streams;
   const dispatch = useAppDispatch();
 
-  console.log(streams);
-
   useEffect(() => {
     getAllStreams().then((streams) => {
       dispatch(allStreams(streams));

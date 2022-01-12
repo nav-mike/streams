@@ -23,123 +23,17 @@ import PinnedChatMessage from "./PinnedChatMessage";
 import useChannel from "../../hooks/useChannel";
 import MessageInputForm from "./MessageInputForm";
 import ChatMessageModel from "../../models/ChatMessage";
+import { useAppSelector } from "../../store/hooks";
 
 interface IOpenChatProps {
   toggle: () => void;
 }
 
-export const FAKE_MESSAGES: ChatMessageModel[] = [
-  {
-    author: "Jaxson Bator",
-    authorAvatar: "https://bit.ly/code-beast",
-    message:
-      "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!",
-    createdAt: DateTime.now().plus({ minutes: -2 }),
-  },
-  {
-    author: "Kent Dodds",
-    authorAvatar: "https://bit.ly/kent-c-dodds",
-    message:
-      "programming the firewall won't do anything, we need to index the primary PCI panel!",
-    createdAt: DateTime.now().plus({ minutes: -1 }),
-  },
-  {
-    author: "Jaxson Bator",
-    authorAvatar: "https://bit.ly/code-beast",
-    message:
-      "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!",
-    createdAt: DateTime.now().plus({ minutes: -2 }),
-  },
-  {
-    author: "Kent Dodds",
-    authorAvatar: "https://bit.ly/kent-c-dodds",
-    message:
-      "programming the firewall won't do anything, we need to index the primary PCI panel!",
-    createdAt: DateTime.now().plus({ minutes: -1 }),
-  },
-  {
-    author: "Jaxson Bator",
-    authorAvatar: "https://bit.ly/code-beast",
-    message:
-      "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!",
-    createdAt: DateTime.now().plus({ minutes: -2 }),
-  },
-  {
-    author: "Kent Dodds",
-    authorAvatar: "https://bit.ly/kent-c-dodds",
-    message:
-      "programming the firewall won't do anything, we need to index the primary PCI panel!",
-    createdAt: DateTime.now().plus({ minutes: -1 }),
-  },
-  {
-    author: "Jaxson Bator",
-    authorAvatar: "https://bit.ly/code-beast",
-    message:
-      "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!",
-    createdAt: DateTime.now().plus({ minutes: -2 }),
-  },
-  {
-    author: "Kent Dodds",
-    authorAvatar: "https://bit.ly/kent-c-dodds",
-    message:
-      "programming the firewall won't do anything, we need to index the primary PCI panel!",
-    createdAt: DateTime.now().plus({ minutes: -1 }),
-  },
-  {
-    author: "Jaxson Bator",
-    authorAvatar: "https://bit.ly/code-beast",
-    message:
-      "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!",
-    createdAt: DateTime.now().plus({ minutes: -2 }),
-  },
-  {
-    author: "Kent Dodds",
-    authorAvatar: "https://bit.ly/kent-c-dodds",
-    message:
-      "programming the firewall won't do anything, we need to index the primary PCI panel!",
-    createdAt: DateTime.now().plus({ minutes: -1 }),
-  },
-  {
-    author: "Jaxson Bator",
-    authorAvatar: "https://bit.ly/code-beast",
-    message:
-      "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!",
-    createdAt: DateTime.now().plus({ minutes: -2 }),
-  },
-  {
-    author: "Kent Dodds",
-    authorAvatar: "https://bit.ly/kent-c-dodds",
-    message:
-      "programming the firewall won't do anything, we need to index the primary PCI panel!",
-    createdAt: DateTime.now().plus({ minutes: -1 }),
-  },
-  {
-    author: "Jaxson Bator",
-    authorAvatar: "https://bit.ly/code-beast",
-    message:
-      "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!",
-    createdAt: DateTime.now().plus({ minutes: -2 }),
-  },
-  {
-    author: "Kent Dodds",
-    authorAvatar: "https://bit.ly/kent-c-dodds",
-    message:
-      "programming the firewall won't do anything, we need to index the primary PCI panel!",
-    createdAt: DateTime.now().plus({ minutes: -1 }),
-    authorStatus: "moderator",
-  },
-  {
-    author: "Jaxson Bator",
-    authorAvatar: "https://bit.ly/code-beast",
-    message:
-      "If we bypass the program, we can get to the SSL system through the neural SQL bandwidth!",
-    createdAt: DateTime.now().plus({ minutes: -2 }),
-    authorStatus: "admin",
-  },
-];
-
 const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   const chatChannel = useChannel("room:lobby");
+  const messages: ChatMessageModel[] = useAppSelector<{
+    messages: ChatMessageModel[];
+  }>((state) => state.globalChatMessages).messages;
 
   useEffect(() => {
     if (!chatChannel) return;
@@ -214,7 +108,7 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
                 />
                 <VStack h={"calc(100vh - 56px - 42px - 84px - 120px)"}>
                   <VStack flexDirection={"column-reverse"} overflowY={"scroll"}>
-                    {FAKE_MESSAGES.map((message, index) => (
+                    {messages.map((message, index) => (
                       <ChatMessage
                         key={index}
                         author={message.author}
