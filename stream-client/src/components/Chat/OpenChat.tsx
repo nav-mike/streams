@@ -17,13 +17,11 @@ import {
 import { BsChevronRight } from "react-icons/bs";
 import { RiUserFill } from "react-icons/ri";
 import "emoji-mart/css/emoji-mart.css";
-import ChatMessage from "./ChatMessage";
 import { DateTime } from "luxon";
 import PinnedChatMessage from "./PinnedChatMessage";
 import useChannel from "../../hooks/useChannel";
 import MessageInputForm from "./MessageInputForm";
-import ChatMessageModel from "../../models/ChatMessage";
-import { useAppSelector } from "../../store/hooks";
+import MessagesList from "./MessagesList";
 
 interface IOpenChatProps {
   toggle: () => void;
@@ -31,9 +29,6 @@ interface IOpenChatProps {
 
 const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   const chatChannel = useChannel("room:lobby");
-  const messages: ChatMessageModel[] = useAppSelector<{
-    messages: ChatMessageModel[];
-  }>((state) => state.globalChatMessages).messages;
 
   useEffect(() => {
     if (!chatChannel) return;
@@ -106,20 +101,7 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
                   }
                   createdAt={DateTime.now().plus({ minutes: -1 })}
                 />
-                <VStack h={"calc(100vh - 56px - 42px - 84px - 120px)"}>
-                  <VStack flexDirection={"column-reverse"} overflowY={"scroll"}>
-                    {messages.map((message, index) => (
-                      <ChatMessage
-                        key={index}
-                        author={message.author}
-                        authorAvatar={message.authorAvatar}
-                        message={message.message}
-                        createdAt={message.createdAt}
-                        authorStatus={message.authorStatus}
-                      />
-                    ))}
-                  </VStack>
-                </VStack>
+                <MessagesList />
               </VStack>
               <MessageInputForm onSubmit={onSendMessage} />
             </VStack>
