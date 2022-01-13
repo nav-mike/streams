@@ -8,6 +8,8 @@ import {
   useColorModeValue,
   VStack,
   Link,
+  useBoolean,
+  IconButton,
 } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import { HiFlag } from "react-icons/hi";
@@ -37,6 +39,7 @@ const timeAgo = (dateTime: DateTime) => {
 const ChatMessage: FC<ChatMessageModel> = (props) => {
   const bg = useColorModeValue("gray.100", "gray.700");
   const timeColor = useColorModeValue("gray.500", "gray.600");
+  const [isShowControls, setIsShowControls] = useBoolean(false);
 
   return (
     <HStack
@@ -45,6 +48,8 @@ const ChatMessage: FC<ChatMessageModel> = (props) => {
       _hover={{ backgroundColor: bg, cursor: "pointer" }}
       w={"full"}
       p={0}
+      onMouseEnter={setIsShowControls.on}
+      onMouseLeave={setIsShowControls.off}
     >
       <Avatar size={"sm"} name={props.author} src={props.authorAvatar} />
       <VStack alignItems={"flex-start"}>
@@ -54,7 +59,17 @@ const ChatMessage: FC<ChatMessageModel> = (props) => {
             {timeAgo(props.createdAt)}
           </Text>
           {props.authorStatus && <Badge>{props.authorStatus}</Badge>}
-          {props.booked && <Icon as={HiFlag} color={"red"} />}
+          {props.booked && !props.pinned && <Icon as={HiFlag} color={"red"} />}
+          {isShowControls && (
+            <IconButton
+              aria-label={"Book the message"}
+              isRound={false}
+              size={"xs"}
+              bg={bg}
+              _hover={{ backgroundColor: bg }}
+              icon={<Icon as={HiFlag} color={"gray.400"} />}
+            />
+          )}
           {props.pinned && <Icon as={RiPushpinFill} color={"gray.400"} />}
         </HStack>
         <Text fontSize={"12px"} align={"left"} paddingBottom={1}>
