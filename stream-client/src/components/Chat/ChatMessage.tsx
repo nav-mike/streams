@@ -36,7 +36,11 @@ const timeAgo = (dateTime: DateTime) => {
   return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
 };
 
-const ChatMessage: FC<ChatMessageModel> = (props) => {
+export interface IChatMessageProps {
+  onClick?: () => void;
+}
+
+const ChatMessage: FC<ChatMessageModel & IChatMessageProps> = (props) => {
   const bg = useColorModeValue("gray.100", "gray.700");
   const timeColor = useColorModeValue("gray.500", "gray.600");
   const [isShowControls, setIsShowControls] = useBoolean(false);
@@ -50,6 +54,7 @@ const ChatMessage: FC<ChatMessageModel> = (props) => {
       p={0}
       onMouseEnter={setIsShowControls.on}
       onMouseLeave={setIsShowControls.off}
+      onClick={props.onClick}
     >
       <Avatar size={"sm"} name={props.author} src={props.authorAvatar} />
       <VStack alignItems={"flex-start"}>
@@ -60,7 +65,7 @@ const ChatMessage: FC<ChatMessageModel> = (props) => {
           </Text>
           {props.authorStatus && <Badge>{props.authorStatus}</Badge>}
           {props.booked && !props.pinned && <Icon as={HiFlag} color={"red"} />}
-          {isShowControls && (
+          {isShowControls && !props.pinned && (
             <IconButton
               aria-label={"Book the message"}
               isRound={false}

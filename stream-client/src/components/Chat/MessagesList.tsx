@@ -15,7 +15,9 @@ const MessagesList: FC<IMessageListProps> = ({ hasAnnounce }) => {
 
   return (
     <VStack
-      h={`calc(100vh - 56px - 42px ${hasAnnounce ? "- 96px " : ""}- 120px)`}
+      h={`calc(100vh - 56px - 42px ${
+        hasAnnounce ? "- 120px " : "+ 20px "
+      }- 96px)`}
     >
       <VStack flexDirection={"column-reverse"} overflowY={"scroll"}>
         {messages.map((message, index) => (

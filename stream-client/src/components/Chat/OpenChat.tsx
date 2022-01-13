@@ -13,6 +13,7 @@ import {
   TabPanels,
   TabPanel,
   VStack,
+  useBoolean,
 } from "@chakra-ui/react";
 import { BsChevronRight } from "react-icons/bs";
 import { RiUserFill } from "react-icons/ri";
@@ -32,6 +33,7 @@ interface IOpenChatProps {
 const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   const chatChannel = useChannel("room:lobby");
   const dispatch = useAppDispatch();
+  const [isShowAnnounce, setIsShowAnnounce] = useBoolean(true);
 
   useEffect(() => {
     if (!chatChannel) return;
@@ -117,15 +119,18 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
           <TabPanel p={0}>
             <VStack>
               <VStack flex={"1"} flexDirection={"column"} w={"full"} p={1}>
-                <AnnounceMessage
-                  author={"Kent Dodds"}
-                  authorAvatar={"https://bit.ly/kent-c-dodds"}
-                  message={
-                    "programming the firewall won't do anything, we need to index the primary PCI panel!"
-                  }
-                  createdAt={DateTime.now().plus({ minutes: -1 })}
-                />
-                <MessagesList hasAnnounce={true} />
+                {isShowAnnounce && (
+                  <AnnounceMessage
+                    author={"Kent Dodds"}
+                    authorAvatar={"https://bit.ly/kent-c-dodds"}
+                    message={
+                      "programming the firewall won't do anything, we need to index the primary PCI panel!"
+                    }
+                    createdAt={DateTime.now().plus({ minutes: -1 })}
+                    onClick={setIsShowAnnounce.off}
+                  />
+                )}
+                <MessagesList hasAnnounce={isShowAnnounce} />
               </VStack>
               <MessageInputForm onSubmit={onSendMessage} />
             </VStack>
