@@ -18,7 +18,7 @@ import { BsChevronRight } from "react-icons/bs";
 import { RiUserFill } from "react-icons/ri";
 import "emoji-mart/css/emoji-mart.css";
 import { DateTime } from "luxon";
-import PinnedChatMessage from "./PinnedChatMessage";
+import AnnounceMessage from "./AnnounceMessage";
 import useChannel from "../../hooks/useChannel";
 import MessageInputForm from "./MessageInputForm";
 import MessagesList from "./MessagesList";
@@ -117,7 +117,7 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
           <TabPanel p={0}>
             <VStack>
               <VStack flex={"1"} flexDirection={"column"} w={"full"} p={1}>
-                <PinnedChatMessage
+                <AnnounceMessage
                   author={"Kent Dodds"}
                   authorAvatar={"https://bit.ly/kent-c-dodds"}
                   message={
@@ -125,7 +125,7 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
                   }
                   createdAt={DateTime.now().plus({ minutes: -1 })}
                 />
-                <MessagesList />
+                <MessagesList hasAnnounce={true} />
               </VStack>
               <MessageInputForm onSubmit={onSendMessage} />
             </VStack>

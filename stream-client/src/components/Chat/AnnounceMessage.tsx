@@ -1,8 +1,9 @@
 import { FC } from "react";
 import { Box } from "@chakra-ui/react";
-import ChatMessage, { IChatMessageProps } from "./ChatMessage";
+import ChatMessage from "./ChatMessage";
+import ChatMessageModel from "../../models/ChatMessage";
 
-const PinnedChatMessage: FC<IChatMessageProps> = (props) => {
+const AnnounceMessage: FC<ChatMessageModel> = (props) => {
   return (
     <Box boxShadow={"dark-lg"} p={3} paddingBottom={9}>
       <ChatMessage {...props} pinned={true} />
@@ -10,4 +11,4 @@ const PinnedChatMessage: FC<IChatMessageProps> = (props) => {
   );
 };
 
-export default PinnedChatMessage;
+export default AnnounceMessage;

@@ -4,13 +4,19 @@ import { useAppSelector } from "../../store/hooks";
 import { VStack } from "@chakra-ui/react";
 import ChatMessage from "./ChatMessage";
 
-const MessagesList: FC = () => {
+interface IMessageListProps {
+  hasAnnounce?: boolean;
+}
+
+const MessagesList: FC<IMessageListProps> = ({ hasAnnounce }) => {
   const messages: ChatMessageModel[] = useAppSelector<{
     messages: ChatMessageModel[];
   }>((state) => state.globalChatMessages).messages;
 
   return (
-    <VStack h={"calc(100vh - 56px - 42px - 84px - 120px)"}>
+    <VStack
+      h={`calc(100vh - 56px - 42px ${hasAnnounce ? "- 96px " : ""}- 120px)`}
+    >
       <VStack flexDirection={"column-reverse"} overflowY={"scroll"}>
         {messages.map((message, index) => (
           <ChatMessage
