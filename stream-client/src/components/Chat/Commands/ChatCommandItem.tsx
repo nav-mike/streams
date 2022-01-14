@@ -14,7 +14,7 @@ interface IChatCommandItemProps {
   example: string;
   command: string;
 
-  onClick?: (command: string) => void;
+  onClick: (command: string) => void;
 }
 
 const ChatCommandItem: FC<IChatCommandItemProps> = (props) => {
@@ -24,9 +24,7 @@ const ChatCommandItem: FC<IChatCommandItemProps> = (props) => {
     <HStack
       w={"100%"}
       onClick={() => {
-        if (props.onClick) {
-          props.onClick(`${props.command} `);
-        }
+        props.onClick(props.command);
       }}
       _hover={{
         cursor: "pointer",
