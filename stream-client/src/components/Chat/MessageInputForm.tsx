@@ -16,11 +16,18 @@ import {
   InputRightElement,
   useBoolean,
   useColorModeValue,
+  VStack,
+  Text,
 } from "@chakra-ui/react";
 import { TiFlash } from "react-icons/ti";
 import { CgSmile } from "react-icons/cg";
-import { GoArrowRight } from "react-icons/all";
+import { FiUserX, FiUserPlus } from "react-icons/fi";
+import { HiFlag } from "react-icons/hi";
+import { SiImgur } from "react-icons/si";
+import { AiOutlineFileGif } from "react-icons/ai";
+import { GoArrowRight, GoMute, GoUnmute } from "react-icons/go";
 import { EmojiData, Picker } from "emoji-mart";
+import ChatCommandItem from "./ChatCommandItem";
 
 const defaultPickerStyles: CSSProperties = {
   position: "absolute",
@@ -37,14 +44,15 @@ interface IMessageInputFormProps {
 
 const MessageInputForm: FC<IMessageInputFormProps> = (props) => {
   const bg = useColorModeValue("gray.100", "WhiteAlpha.50");
+  const commandsBg = useColorModeValue("gray.100", "gray.700");
   const emojiPickerTheme = useColorModeValue("light", "dark");
 
   const [message, setMessage] = useState("");
   const [messageSize, setMessageSize] = useState(0);
   const [isShowPicker, setIsShowPicker] = useBoolean(false);
+  const [isShowCommands, setIsShowCommands] = useBoolean(false);
 
   const messageInputRef = useRef<HTMLInputElement>(null);
-  const inputFile = useRef<HTMLInputElement>(null);
   const emojiPicker = useRef<Picker>(null);
 
   const updateMessageHandler = (value: string) => {
@@ -65,10 +73,6 @@ const MessageInputForm: FC<IMessageInputFormProps> = (props) => {
       props.onSubmit(message);
       updateMessageHandler("");
     }
-  };
-
-  const onAddFileClickHandler = () => {
-    inputFile?.current?.click();
   };
 
   const onSelectEmojiHandle = (emoji: EmojiData) => {
@@ -105,14 +109,14 @@ const MessageInputForm: FC<IMessageInputFormProps> = (props) => {
           />
           <InputRightElement w={"4rem"}>
             <IconButton
-              aria-label="Emojis"
+              aria-label="Commands Matching Dialog"
               bg={bg}
-              onClick={onAddFileClickHandler}
+              onClick={setIsShowCommands.toggle}
               icon={<Icon as={TiFlash} />}
               size={"sm"}
             />
             <IconButton
-              aria-label="Attach"
+              aria-label="Emojis picker"
               bg={bg}
               onClick={setIsShowPicker.toggle}
               icon={<Icon as={CgSmile} />}
@@ -120,13 +124,6 @@ const MessageInputForm: FC<IMessageInputFormProps> = (props) => {
             />
           </InputRightElement>
         </InputGroup>
-        <input
-          type={"file"}
-          id={"file"}
-          ref={inputFile}
-          accept={".jpg, .jpeg, .png, .gif"}
-          style={{ display: "none" }}
-        />
       </FormControl>
       <FormControl w={"40px"}>
         <IconButton
@@ -145,6 +142,65 @@ const MessageInputForm: FC<IMessageInputFormProps> = (props) => {
           ref={emojiPicker}
           onSelect={onSelectEmojiHandle}
         />
+      )}
+      {isShowCommands && (
+        <VStack
+          bg={commandsBg}
+          position={"absolute"}
+          bottom={"65px"}
+          right={"35px"}
+          zIndex={1000}
+          alignItems={"flex-start"}
+          borderRadius={"8px"}
+          p={2}
+        >
+          <HStack>
+            <Icon as={TiFlash} color={"blue.500"} />
+            <Text color={"gray.500"}>Commands Matching</Text>
+          </HStack>
+          <ChatCommandItem
+            icon={FiUserX}
+            label={"Ban"}
+            example={"/ban [@username] [text]"}
+            command={"/ban"}
+          />
+          <ChatCommandItem
+            icon={FiUserPlus}
+            label={"Unban"}
+            example={"/unban [@username]"}
+            command={"/unban"}
+          />
+          <ChatCommandItem
+            icon={HiFlag}
+            label={"Flag"}
+            example={"/flag [@username]"}
+            command={"/flag"}
+          />
+          <ChatCommandItem
+            icon={AiOutlineFileGif}
+            label={"Giphy"}
+            example={"/giphy [query]"}
+            command={"/giphy"}
+          />
+          <ChatCommandItem
+            icon={SiImgur}
+            label={"Imgur"}
+            example={"/imgur [query]"}
+            command={"/imgur"}
+          />
+          <ChatCommandItem
+            icon={GoMute}
+            label={"Mute"}
+            example={"/mute [@username]"}
+            command={"/mute"}
+          />
+          <ChatCommandItem
+            icon={GoUnmute}
+            label={"Unmute"}
+            example={"/unmute [@username]"}
+            command={"/unmute"}
+          />
+        </VStack>
       )}
     </HStack>
   );
