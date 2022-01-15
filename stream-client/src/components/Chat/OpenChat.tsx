@@ -25,6 +25,7 @@ import MessageInputForm from "./MessageInputForm";
 import MessagesList from "./MessagesList";
 import { useAppDispatch } from "../../store/hooks";
 import { NewGlobalMessage } from "../../store/actions/globalChatMessages";
+import { IChatMessage } from "../../models/ChatMessage";
 
 interface IOpenChatProps {
   toggle: () => void;
@@ -33,7 +34,7 @@ interface IOpenChatProps {
 const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   const chatChannel = useChannel("room:lobby");
   const dispatch = useAppDispatch();
-  const [isShowAnnounce, setIsShowAnnounce] = useBoolean(true);
+  const [isShowAnnounce, setIsShowAnnounce] = useBoolean(false);
 
   useEffect(() => {
     if (!chatChannel) return;
@@ -44,31 +45,14 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   useEffect(() => {
     if (!chatChannel) return;
 
-    chatChannel.on(
-      "new_msg",
-      (payload: {
-        body: {
-          author: string;
-          message: string;
-          createdAt: string;
-          authorAvatar: string;
-          authorStatus?: string;
-          pinned?: boolean;
-          booked?: boolean;
-        };
-      }) => {
-        console.log("New message", {
+    chatChannel.on("new_msg", (payload: { body: IChatMessage }) => {
+      dispatch(
+        NewGlobalMessage({
           ...payload.body,
           createdAt: DateTime.fromISO(payload.body.createdAt),
-        });
-        dispatch(
-          NewGlobalMessage({
-            ...payload.body,
-            createdAt: DateTime.fromISO(payload.body.createdAt),
-          })
-        );
-      }
-    );
+        })
+      );
+    });
 
     return () => {
       chatChannel.off();

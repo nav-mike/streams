@@ -28,9 +28,11 @@ defmodule StreamServerWeb.RoomChannel do
   end
 
   def handle_in("new_msg", %{"body" => body}, socket) do
-    mbd = message_body(body["message"])
-    broadcast(socket, "new_msg", %{"body" => mbd})
-    {:reply, {:ok, %{"body" => mbd}}, socket}
+    if String.match?(body["message"], ~r/\/anno\s+.+/i) do
+      announce(body["message"], socket)
+    else
+      message(body["message"], socket)
+    end
   end
 
   # It is also common to receive messages from the client and
@@ -59,5 +61,17 @@ defmodule StreamServerWeb.RoomChannel do
       :message => message,
       :createdAt => dt
     }
+  end
+
+  def announce(message, socket) do
+    body = message_body(message)
+    broadcast(socket, "new_anno", %{"body" => body})
+    {:reply, {:ok, %{"body" => body}}, socket}
+  end
+
+  def message(message, socket) do
+    body = message_body(message)
+    broadcast(socket, "new_msg", %{"body" => body})
+    {:reply, {:ok, %{"body" => body}}, socket}
   end
 end

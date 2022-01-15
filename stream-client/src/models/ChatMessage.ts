@@ -11,3 +11,13 @@ export default class ChatMessage {
     public booked?: boolean
   ) {}
 }
+
+export interface IChatMessage {
+  author: string;
+  message: string;
+  createdAt: string;
+  authorAvatar: string;
+  authorStatus?: string;
+  pinned?: boolean;
+  booked?: boolean;
+}
