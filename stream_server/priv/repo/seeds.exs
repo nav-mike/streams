@@ -27,7 +27,8 @@ StreamServer.Repo.insert!(%StreamServer.Stream{
   name: "Implementing a Cybersecurity Framework",
   speaker_code: "987654",
   status: 1,
-  cover_image_url: "https://i.postimg.cc/7ZnmXkzz/linkedin-sales-solutions-6ie6-Ojshv-Wg-unsplash.jpg"
+  cover_image_url:
+    "https://i.postimg.cc/7ZnmXkzz/linkedin-sales-solutions-6ie6-Ojshv-Wg-unsplash.jpg"
 })
 
 StreamServer.Repo.insert!(%StreamServer.Stream{

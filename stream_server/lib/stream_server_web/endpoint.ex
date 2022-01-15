@@ -49,6 +49,6 @@ defmodule StreamServerWeb.Endpoint do
   plug StreamServerWeb.Router
 
   socket "/socket", StreamServerWeb.UserSocket,
-      websocket: true,
-      longpoll: false
+    websocket: true,
+    longpoll: false
 end

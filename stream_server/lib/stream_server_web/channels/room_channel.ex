@@ -51,10 +51,13 @@ defmodule StreamServerWeb.RoomChannel do
   def message_body(message) do
     author = @authors |> Map.keys() |> Enum.random()
     avatar = Map.get(@authors, author)
-    dt = case DateTime.now("Etc/UTC") do
-      {:ok, date_time} -> DateTime.to_iso8601(date_time)
-      {:error, _} -> "2022-01-11T11:57:09.965513Z"
-    end
+
+    dt =
+      case DateTime.now("Etc/UTC") do
+        {:ok, date_time} -> DateTime.to_iso8601(date_time)
+        {:error, _} -> "2022-01-11T11:57:09.965513Z"
+      end
+
     %{
       :author => author,
       :authorAvatar => avatar,
