@@ -1,5 +1,6 @@
 import {
   ChangeEvent,
+  createRef,
   CSSProperties,
   FC,
   KeyboardEvent,
@@ -16,12 +17,13 @@ import {
   InputRightElement,
   useBoolean,
   useColorModeValue,
+  useOutsideClick,
 } from "@chakra-ui/react";
 import { TiFlash } from "react-icons/ti";
 import { CgSmile } from "react-icons/cg";
 import { GoArrowRight } from "react-icons/go";
 import { EmojiData, Picker } from "emoji-mart";
-import ChatCommandList from "./Commands/ChatCommandList";
+import ChatCommandsList from "./Commands/ChatCommandsList";
 
 const defaultPickerStyles: CSSProperties = {
   position: "absolute",
@@ -44,9 +46,22 @@ const MessageInputForm: FC<IMessageInputFormProps> = (props) => {
   const [messageSize, setMessageSize] = useState(0);
   const [isShowPicker, setIsShowPicker] = useBoolean(false);
   const [isShowCommands, setIsShowCommands] = useBoolean(false);
+  console.log("render component");
 
   const messageInputRef = useRef<HTMLInputElement>(null);
-  const emojiPicker = useRef<Picker>(null);
+  const emojiPickerRef = useRef<Picker>(null);
+  const commandsListRef = createRef<HTMLDivElement>();
+
+  useOutsideClick({
+    ref: commandsListRef,
+    handler: (e: Event) => {
+      const event: MouseEvent = e as MouseEvent;
+      const target: HTMLElement = event.target as HTMLElement;
+      if (target.id === "message-input") return;
+
+      setIsShowCommands.off();
+    },
+  });
 
   const updateMessageHandler = (value: string) => {
     if (messageSize > MAX_MESSAGE_SIZE) return;
@@ -97,6 +112,7 @@ const MessageInputForm: FC<IMessageInputFormProps> = (props) => {
           <Input
             type={"text"}
             placeholder={"Say something"}
+            id={"message-input"}
             borderRadius={"8px"}
             value={message}
             onChange={onMessageChangeHandler}
@@ -113,6 +129,7 @@ const MessageInputForm: FC<IMessageInputFormProps> = (props) => {
               onClick={setIsShowCommands.toggle}
               icon={<Icon as={TiFlash} />}
               size={"sm"}
+              title={"Commands"}
             />
             <IconButton
               aria-label="Emojis picker"
@@ -138,11 +155,16 @@ const MessageInputForm: FC<IMessageInputFormProps> = (props) => {
         <Picker
           style={defaultPickerStyles}
           theme={emojiPickerTheme}
-          ref={emojiPicker}
+          ref={emojiPickerRef}
           onSelect={onSelectEmojiHandle}
         />
       )}
-      {isShowCommands && <ChatCommandList onClick={onAddCommandToMessage} />}
+      {isShowCommands && (
+        <ChatCommandsList
+          ref={commandsListRef}
+          onClick={onAddCommandToMessage}
+        />
+      )}
     </HStack>
   );
 };
