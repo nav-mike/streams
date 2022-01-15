@@ -23,9 +23,10 @@ import AnnounceMessage from "./AnnounceMessage";
 import useChannel from "../../hooks/useChannel";
 import MessageInputForm from "./MessageInputForm";
 import MessagesList from "./MessagesList";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { NewGlobalMessage } from "../../store/actions/globalChatMessages";
-import { IChatMessage } from "../../models/ChatMessage";
+import ChatMessage, { IChatMessage } from "../../models/ChatMessage";
+import { NewAnnouncementMessage } from "../../store/actions/announceMessage";
 
 interface IOpenChatProps {
   toggle: () => void;
@@ -34,7 +35,10 @@ interface IOpenChatProps {
 const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
   const chatChannel = useChannel("room:lobby");
   const dispatch = useAppDispatch();
-  const [isShowAnnounce, setIsShowAnnounce] = useBoolean(false);
+
+  const announce: ChatMessage | undefined = useAppSelector<{
+    message?: ChatMessage;
+  }>((state) => state.announceMessage)?.message;
 
   useEffect(() => {
     if (!chatChannel) return;
@@ -54,17 +58,30 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
       );
     });
 
+    chatChannel.on("new_anno", (payload: { body: IChatMessage }) => {
+      dispatch(
+        NewAnnouncementMessage({
+          ...payload.body,
+          createdAt: DateTime.fromISO(payload.body.createdAt),
+        })
+      );
+    });
+
     return () => {
       chatChannel.off();
     };
   }, [chatChannel]);
 
-  const onSendMessage = (message: string) => {
+  const sendMessageHandler = (message: string) => {
     if (message.trim() !== "" && chatChannel) {
       chatChannel.push("new_msg", {
         body: { message: message },
       });
     }
+  };
+
+  const clearAnnounceHandler = () => {
+    dispatch(NewAnnouncementMessage(undefined));
   };
 
   return (
@@ -103,20 +120,15 @@ const OpenChat: FC<IOpenChatProps> = ({ toggle }) => {
           <TabPanel p={0}>
             <VStack>
               <VStack flex={"1"} flexDirection={"column"} w={"full"} p={1}>
-                {isShowAnnounce && (
+                {announce && (
                   <AnnounceMessage
-                    author={"Kent Dodds"}
-                    authorAvatar={"https://bit.ly/kent-c-dodds"}
-                    message={
-                      "programming the firewall won't do anything, we need to index the primary PCI panel!"
-                    }
-                    createdAt={DateTime.now().plus({ minutes: -1 })}
-                    onClick={setIsShowAnnounce.off}
+                    {...announce}
+                    onClick={clearAnnounceHandler}
                   />
                 )}
-                <MessagesList hasAnnounce={isShowAnnounce} />
+                <MessagesList hasAnnounce={announce !== undefined} />
               </VStack>
-              <MessageInputForm onSubmit={onSendMessage} />
+              <MessageInputForm onSubmit={sendMessageHandler} />
             </VStack>
           </TabPanel>
         </TabPanels>

@@ -9,7 +9,7 @@ export type NewAnnouncementAction = Action<
 >;
 
 export const NewAnnouncementMessage = (
-  message: ChatMessage
+  message: ChatMessage | undefined
 ): NewAnnouncementAction => ({
   type: NEW_ANNOUNCEMENT,
   payload: message,

@@ -64,7 +64,7 @@ defmodule StreamServerWeb.RoomChannel do
   end
 
   def announce(message, socket) do
-    body = message_body(message)
+    body = message_body(message |> String.replace_prefix("/anno ", "") |> String.trim())
     broadcast(socket, "new_anno", %{"body" => body})
     {:reply, {:ok, %{"body" => body}}, socket}
   end
