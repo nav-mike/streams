@@ -46,7 +46,6 @@ const MessageInputForm: FC<IMessageInputFormProps> = (props) => {
   const [messageSize, setMessageSize] = useState(0);
   const [isShowPicker, setIsShowPicker] = useBoolean(false);
   const [isShowCommands, setIsShowCommands] = useBoolean(false);
-  console.log("render component");
 
   const messageInputRef = useRef<HTMLInputElement>(null);
   const emojiPickerRef = useRef<Picker>(null);
@@ -57,7 +56,13 @@ const MessageInputForm: FC<IMessageInputFormProps> = (props) => {
     handler: (e: Event) => {
       const event: MouseEvent = e as MouseEvent;
       const target: HTMLElement = event.target as HTMLElement;
-      if (target.id === "message-input") return;
+      if (
+        target.id === "message-input" ||
+        target.id === "commands-button" ||
+        target.id === "commands-icon" ||
+        target.tagName === "path"
+      )
+        return;
 
       setIsShowCommands.off();
     },
@@ -127,9 +132,10 @@ const MessageInputForm: FC<IMessageInputFormProps> = (props) => {
               aria-label="Commands Matching Dialog"
               bg={bg}
               onClick={setIsShowCommands.toggle}
-              icon={<Icon as={TiFlash} />}
+              icon={<Icon as={TiFlash} id={"commands-icon"} />}
               size={"sm"}
               title={"Commands"}
+              id={"commands-button"}
             />
             <IconButton
               aria-label="Emojis picker"
