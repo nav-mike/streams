@@ -13,6 +13,7 @@ import { HiFlag } from "react-icons/hi";
 import { AiOutlineFileGif } from "react-icons/ai";
 import { SiImgur } from "react-icons/si";
 import { GoMute, GoUnmute } from "react-icons/go";
+import { HiAnnotation } from "react-icons/hi";
 
 interface IChatCommandList {
   onClick: (command: string) => void;
@@ -85,6 +86,13 @@ const ChatCommandsList = forwardRef<HTMLDivElement, IChatCommandList>(
           label={"Unmute"}
           example={"/unmute [@username]"}
           command={"/unmute"}
+          onClick={props.onClick}
+        />
+        <ChatCommandItem
+          icon={HiAnnotation}
+          label={"Add announce"}
+          example={"/anno [text]"}
+          command={"/anno"}
           onClick={props.onClick}
         />
       </VStack>
